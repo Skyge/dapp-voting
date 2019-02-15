@@ -34,6 +34,7 @@ contract Ballot is Pausable {
 
     // A dynamically-sized array of `Proposal` structs.
     Proposal[] public proposals;
+    uint8[] public winningProposal_;
 
     /// @dev Create a new ballot to choose one of `proposalNames`.
     constructor(uint8 proposalNumbers) public {
@@ -67,20 +68,22 @@ contract Ballot is Pausable {
 
     /// @dev Computes the winning proposal taking all
     /// previous votes into account.
-    function winningProposal() public whenPaused view returns (uint8 winningProposal_) {
+    function winningProposal() public whenPaused returns (uint8[] memory) {
         uint32 winningVoteCount = 0;
         for (uint8 p = 0; p < proposals.length; p++) {
-            if (proposals[p].voteCount > winningVoteCount) {
+            if (proposals[p].voteCount == winningVoteCount) {
                 winningVoteCount = proposals[p].voteCount;
-                winningProposal_ = p;
+                winningProposal_.push(p);
+            }else if (proposals[p].voteCount > winningVoteCount) {
+                winningVoteCount = proposals[p].voteCount;
+                for (uint8 i = uint8(winningProposal_.length)-1; i <= 0; i--) {
+                    delete winningProposal_[i];
+                    winningProposal_.length--;
+                }
+                winningProposal_.push(p);
             }
         }
-    }
 
-    /// @dev Calls winningProposal() function to get the index
-    /// of the winner contained in the proposals array and then
-    /// returns the number of the winner
-    function winnerNumber() public whenPaused view returns (uint8 winnerNumber_) {
-        winnerNumber_ = proposals[winningProposal()].number;
+        return winningProposal_;
     }
 }
