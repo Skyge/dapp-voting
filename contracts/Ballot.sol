@@ -14,6 +14,101 @@ import "./Pausable.sol";
  * @author Yang Han, Lee.c, Skyge 
  */
 
+// /**
+//  * @title Ownable
+//  * @dev The Ownable contract has an owner address, and provides basic authorization control
+//  * functions, this simplifies the implementation of "user permissions".
+//  */
+// contract Ownable {
+//     address private _owner;
+
+//     /**
+//      * @dev Throws if called by any account other than the owner.
+//      */
+//     modifier onlyOwner() {
+//         require(isOwner(), "You do not have the permission");
+//         _;
+//     }
+
+//     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+//     /**
+//      * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+//      * account.
+//      */
+//     constructor () internal {
+//         _owner = msg.sender;
+//         emit OwnershipTransferred(address(0), _owner);
+//     }
+
+//     /**
+//      * @return the address of the owner.
+//      */
+//     function owner() public view returns (address) {
+//         return _owner;
+//     }
+
+//     /**
+//      * @return true if `msg.sender` is the owner of the contract.
+//      */
+//     function isOwner() public view returns (bool) {
+//         return msg.sender == _owner;
+//     }
+// }
+
+// /**
+//  * @title Pausable
+//  * @dev Base contract which allows admin to implement an emergency stop mechanism.
+//  */
+// contract Pausable is Ownable {
+//     event Paused(address account);
+//     event Unpaused(address account);
+
+//     bool private _paused;
+
+//     constructor () internal {
+//         _paused = false;
+//     }
+
+//     /**
+//      * @return true if the contract is paused, false otherwise.
+//      */
+//     function paused() public view returns (bool) {
+//         return _paused;
+//     }
+
+//     /**
+//      * @dev Modifier to make a function callable only when the contract is not paused.
+//      */
+//     modifier whenNotPaused() {
+//         require(!_paused, "Only valid when does not paused!");
+//         _;
+//     }
+
+//     /**
+//      * @dev Modifier to make a function callable only when the contract is paused.
+//      */
+//     modifier whenPaused() {
+//         require(_paused, "Only valid when pause!");
+//         _;
+//     }
+
+//     /**
+//      * @dev called by the owner to pause, triggers stopped state
+//      */
+//     function pause() public onlyOwner whenNotPaused {
+//         _paused = true;
+//         emit Paused(msg.sender);
+//     }
+
+//     /**
+//      * @dev called by the owner to unpause, returns to normal state
+//      */
+//     function unpause() public onlyOwner whenPaused {
+//         _paused = false;
+//         emit Unpaused(msg.sender);
+//     }
+// }
 
 contract Ballot is Pausable {
     // It will represent a single voter.
