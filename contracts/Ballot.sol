@@ -74,10 +74,14 @@ contract Ballot is Pausable {
     /// @dev Add a new candidate, but only for the owner.
     function addCandidate() public onlyOwner returns (bool) {
         proposals.push(Proposal({
-            id: uint8(proposals.length) - 1,
+            id: uint8(proposals.length),
             voteCount: 0
         }));
 
         return true;
+    }
+
+    function proposalsCount() public view returns (uint256) {
+        return proposals.length;
     }
 }
