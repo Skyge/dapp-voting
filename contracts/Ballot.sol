@@ -81,6 +81,7 @@ contract Ballot is Pausable {
         return true;
     }
 
+    /// @dev Get the length of the array of `proposals`.
     function proposalsCount() public view returns (uint256) {
         return proposals.length;
     }
