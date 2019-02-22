@@ -1,6 +1,6 @@
 import React from 'react'
 
-class from extends React.Component {
+class Form extends React.Component {
   render() {
     return (
       <form onSubmit={(event) => {
@@ -11,7 +11,7 @@ class from extends React.Component {
           <label>Select Your Favorite</label>
           <select ref={(input) => this.candidateId = input} class='form-control'>
             {this.props.candidates.map((candidate) => {
-              return <option value={candidate.id.toNumber()}>{candidate.id.toNumber()}</option>
+              return <option value={candidate.id.toNumber()+1}>{candidate.id.toNumber()+1}</option>
             })}
           </select>
         </div>
@@ -22,4 +22,4 @@ class from extends React.Component {
   }
 }
 
-export default from
+export default Form

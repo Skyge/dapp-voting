@@ -12,7 +12,11 @@ class Content extends React.Component {
           <Form candidates={this.props.candidates} castVote={this.props.castVote} />
           : null
         }
-        <p>Your account: {this.props.account}</p>
+        <p>Your account: <b>{this.props.account}</b></p>
+        { this.props.hasVoted ?
+          <p>You have voted for: <b>{this.props.votedFor}</b></p>
+          : null
+        }
       </div>
     )
   }

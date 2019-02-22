@@ -15,6 +15,7 @@ class App extends React.Component {
       hasVoted: false,
       loading: true,
       voting: false,
+      votedFor: 0
     }
 
     if (typeof web3 != 'undefined') {
@@ -29,12 +30,6 @@ class App extends React.Component {
     this.ballot.setProvider(this.web3Provider)
 
     console.log("---you login in----");
-    // this.ballot.deployed().then((ballotInstance) => {
-    //   this.ballotInstance = ballotInstance;
-    //   console.log("u have initialized contract---",this.ballotInstance.proposalsCount());
-    //   this.ballotInstance.proposals().then((proposals) => {
-    //     console.log("====got proposal count====", proposals.length);});
-    // })
 
     this.castVote = this.castVote.bind(this)
     this.watchEvents = this.watchEvents.bind(this)
@@ -48,26 +43,19 @@ class App extends React.Component {
         this.ballotInstance = ballotInstance
         this.watchEvents()
         this.ballotInstance.proposalsCount().then((proposals) => {
-          console.log("====got proposal count====", proposals);
           for (var i = 1; i <= proposals; i++) {
-            console.log("u r counting=====", i);
               this.ballotInstance.proposals(i-1).then((candidate) => {
               const candidates = [...this.state.candidates]
               candidates.push({
                   id: candidate[0],
                   voteCount: candidate[1]
               });
-              console.log("before saving=====", candidates);
               this.setState({ candidates: candidates })
-              console.log("after saving=====", this.state.candidates);
             });
           }
         })
         this.ballotInstance.voters(this.state.account).then((hasVoted) => {
-          let temp = hasVoted[0];
-          // console.log("before changing ====", this.state);
-          this.setState({ temp, loading: false })
-          // console.log("after changing====", this.state);
+          this.setState({ hasVoted:hasVoted[0], loading: false, votedFor: hasVoted[1].toNumber() })
         })
       })
     })
@@ -85,8 +73,8 @@ class App extends React.Component {
 
   castVote(candidateId) {
     this.setState({ voting: true })
-    this.ballotInstance.vote(candidateId, { from: this.state.account }).then((result) =>
-      this.setState({ hasVoted: true })
+    this.ballotInstance.vote(candidateId-1, { from: this.state.account }).then((result) =>
+      this.setState({ hasVoted: true, votedFor: candidateId })
     )
   }
 
@@ -102,6 +90,7 @@ class App extends React.Component {
                 account={this.state.account}
                 candidates={this.state.candidates}
                 hasVoted={this.state.hasVoted}
+                votedFor={this.state.votedFor}
                 castVote={this.castVote} />
           }
         </div>

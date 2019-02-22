@@ -15,8 +15,8 @@ class Table extends React.Component {
           {this.props.candidates.map((candidate) => {
             return(
               <tr>
-                <th>{candidate.id.toNumber()}</th>
-                <td>作品{candidate.id.toNumber()}</td>
+                <th>{candidate.id.toNumber()+1}</th>
+                <td>作品{candidate.id.toNumber()+1}</td>
                 <td>{candidate.voteCount.toNumber()}</td>
               </tr>
             )
